@@ -79,7 +79,7 @@ def getPrimeFac(number):
 		return primeFactors[-1] # return largest prime factor
 
 # print(getPrimeFac(101)) # 101
-# print(getPrimeFac(600851475143)) # 6857
+print(getPrimeFac(600851475143)) # 6857
 
 # Solution 3
 
@@ -107,5 +107,5 @@ def find_highest_prime_factor(n):
 			return i
 	return 1
 
-print(find_highest_prime_factor(600851475143)) # 6857
+# print(find_highest_prime_factor(600851475143)) # 6857
 

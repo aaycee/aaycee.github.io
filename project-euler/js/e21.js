@@ -14,7 +14,9 @@
  *
  */
 
-// so are proper divisors essentially factors without the actual number?
+// so are proper divisors essentially positive factors without the actual number?
+
+"use strict";
 
 function getProperDivisors(number) {
     var factors, sqrt, possibleFactor, otherPossibleFactor;
@@ -35,20 +37,19 @@ function getProperDivisors(number) {
 
     factors.sort((a, b) => a - b); // sorts factorset in increasing order
     factors.pop(); // remove the last element
-    return factors
+    return factors;
 }
-
 // test
 getProperDivisors(220); // [1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110]
 
 function getSum(array) {
-    var sum = 0;
-    for (let i in array) {
-        if (typeof(array[i]) === "number") { // just to be sure
+    var i, sum = 0;
+    for (i in array) {
+        if (typeof (array[i]) === "number") { // just to be sure
             sum += array[i];
         }
     }
-    return sum
+    return sum;
 }
 // test
 getSum(getProperDivisors(220)); // 284
@@ -56,19 +57,41 @@ getSum(getProperDivisors(284)); // 220
 
 // good ol' brute force
 function amicableNumbersLessThan(n) {
-    var amicArray = [], pdPair = [], amicPair = {}, i;
+    var i, j, amicArray = [], pdPair = {};
     for (i = 2; i < n; i += 1) {
-		pdPair.push(i + "," + getSum(getProperDivisors(i)));
+		pdPair[i] = getSum(getProperDivisors(i));
     }
     for (i in pdPair) {
-        for (j = 0; j < pdPair.length / 2; j += 1) {
-            if (pdPair[i] === pdPair[j]) {
-                amicArray.push(pdPair[i]);
+        for (j in pdPair) {
+            if (Number(i) === pdPair[j] && Number(j) === pdPair[i] && i !== j) {
+                amicArray.push(Number(j));
             }
         }
     }
    
-    return amicArray;
+    return getSum(amicArray);
 }
 // test
-amicableNumbersLessThan(10);
+amicableNumbersLessThan(300); // 504
+amicableNumbersLessThan(10000); // 31626
+// took about 5.9 s; needs some serious optimization
+// to begin, too many for-loops. So let's see if there's some alternate routesum
+
+// the less for-loops, the better
+function amicSum(n) {
+    var i, sumOfProperDivisors, amicArray = [];
+    for (i = 2; i < n; i += 1) {
+        sumOfProperDivisors = getSum(getProperDivisors(i));
+        if (i !== sumOfProperDivisors) { // avoid perfect numbers
+            if (i === getSum(getProperDivisors(sumOfProperDivisors))) {
+                amicArray.push(i);
+            }
+        }
+    } // just one for-loop in this case
+
+    return getSum(amicArray);
+}
+// test
+// amicSum(1e3); // 504
+amicSum(1e4); // 31626, took 41 ms
+amicSum(1e6); // 27220963, took about 10 s

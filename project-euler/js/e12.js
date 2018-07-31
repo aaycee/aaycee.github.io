@@ -122,7 +122,7 @@ var facLength = function (number) {
 };
 // test
 facLength(500);
-// facLength(500) was too big to start with. It is better to examine trends with smaller facLength numbers 
+// 500 was too big to start with. Test with smaller numbers first
 // while this function is a bit annoying, I promised to strive-on before consulting uncle Google. It also helps my discipline that I'm currently in a house without wifi at the moment.
 
 
@@ -171,7 +171,7 @@ var triFacLen = function (len) {
 triFacLen(10);
 // --> "120 (16 factors): 1,2,3,4,5,6,8,10,12,15,20,24,30,40,60,120"
 // triFacLen(500); --> "76576599 (576 factors): {set of 576 factors}"
-// while triFacLen(500) is doable, we run into the same problem with overuse of forloops. It took so much time and computing power. 20 or so hours later, I've finally earned my Google solution.
+// triFacLen(500) is doable, but time consuming
 // by the way, 76576599 is wrong; 76576500 is correct.
 
 
@@ -209,8 +209,22 @@ var triFacLength = function (len) {
 triFacLength(500);
 // --> "76576500 (576 factors): [set of 576 factors]"
 
-
-// code to control execution time
-
-// timer = setTimeout("myfunction()", 1000) // execute in 1 second (1000ms)
-// clearTimeout(timer); // cancel event
+// cleaner algorithm by using getFactors()
+var tfl = function (len) {
+    'use strict';
+    var triNum, factorset, n;
+    n = 1; // n is the position of the triangle number
+    factorset = []; // initialize factorset
+    
+    while (factorset.length <= len) {
+        n += 1;
+        triNum = n * (n + 1) / 2; // algorithm to calculate the nth triangle number
+        factorset = getFactors(triNum);
+    }
+    
+    // factorset = factorset.sort((a,b) => a - b); // include this to sort factorset
+    // return triNum + ": " + factorset;
+    return triNum;
+};
+// test
+tfl(500); // 76576500
