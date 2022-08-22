@@ -43,6 +43,6 @@ function initializeClock(id, endtime) {
 	var timeinterval = setInterval(updateClock, 1000);
 }
 	
-var deadline = 'August 4 2018 23:59:59 GMT-06:00'; // setting a valid end date	
+var deadline = 'January 4 23:59:59 GMT-06:00'; // setting a valid end date	
 initializeClock('clockdiv', deadline);	
 updateClock();
