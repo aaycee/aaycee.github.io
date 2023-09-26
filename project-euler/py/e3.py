@@ -101,6 +101,7 @@ print(find_highest_prime_factor(target));
 """
 
 def find_highest_prime_factor(n):
+	import math
 	max = int(math.ceil(math.sqrt(n))) # making this an integer for range sake
 	for i in range(max, 1, -1): # this is how to tell python to count backwards
 		if (n % i == 0) and (find_highest_prime_factor(i) == 1):
